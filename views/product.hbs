@@ -1,0 +1,40 @@
+<div class="row">
+    <div class="col-lg-3">
+        <h1 class="h2 pb-4">Categories</h1>
+        <ul class="list-unstyled templatemo-accordion">
+            <li class="pb-3">
+                <select id="cbxCategory" class="form-select" aria-label="Default select example">
+                    <option value="0">Seleccione Categoria</option>
+                    {{#each Categorias}}
+                        <option value="{{this}}">{{this}}</option>
+                    {{/each}}
+                </select>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-lg-9">
+        <div class="row">
+            {{#each ProductosDB}}
+                <div class="col-md-4">
+                    <div class="card mb-4 product-wap rounded-0">
+                        <div class="card rounded-0">
+                            <img class="card-img rounded-0 img-fluid" src="{{this.thumbnail}}">
+                            <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                <ul class="list-unstyled">
+                                    <li><a class="btn btn-success text-white mt-2 btnAddProduct" data-productoid = "{{this.id}}"><i class="fas fa-cart-plus"></i></a></li>
+                                    <li><a href="./product/{{this.id}}" class="btn btn-success text-white mt-2 btnDetailProduct" data-productoid = "{{this.id}}"><i class="fas fa-info-circle "></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <a href="shop-single.html" class="h3 text-decoration-none">{{this.name}}</a>
+                            <p class="text-center mb-0">${{this.price}}</p>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+        </div>
+    </div>
+    </div>
+<script src="{{@root.foo}}assets/js/ProductFunctions.js"></script>

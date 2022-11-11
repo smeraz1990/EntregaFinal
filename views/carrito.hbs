@@ -1,0 +1,71 @@
+<section class="bg-light">
+    <div class="container pb-5">
+        <div class="row">
+            <div class="col-lg-9 mt-5">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="h2">Carrito de Compras</h1>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="gridProductosCarrito" class="table table-striped align-middle mb-0 bg-white">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Title</th>
+                                            <th>Status</th>
+                                            <th>Position</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each ProductosDB}}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                <img
+                                                    src="{{this.thumbnail}}"
+                                                    alt=""
+                                                    style="width: 45px; height: 45px"
+                                                    class="rounded-circle"
+                                                    />
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {{this.name}}
+                                            </td>
+                                            <td>
+                                                {{this.price}}
+                                            </td>
+                                            <td>{{this.qry}}</td>
+                                            <td>
+                                                 {{Multiplicacion this.price this.qry}}
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                 </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- col end -->
+                </div>
+            </div>
+            <div class="col-lg-3 mt-5">
+                <div class="card mb-3">
+                    <div class="row m-5 text-center">
+                        <div class="col-lg-12">
+                            <span>Total a Pagar: <strong>{{SumaCarrito}}</strong></span>
+                        </div>
+                        <div class="col-lg-12">
+                            <button type="button" id="btnPedido" class="form-control btn btn-success">Realizar Orden</button>
+                        </div>
+                    </div>
+                    <!-- <span>Total a Pagar: <strong>{{SumaCarrito}}</strong></span>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+       <script src="{{@root.foo}}/assets/js/CarritoFunctions.js"></script>
