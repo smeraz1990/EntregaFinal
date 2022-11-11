@@ -3,8 +3,7 @@ import productService from "../service/product.service.js";
 const getAllProduct = async (req, res) => {
   try {
     const response = await productService.getAllProduct();
-
-    res.render("product", {ProductosDB:response} );
+    res.render("product", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias} );
   } catch (err) {
     if (err.statusCode) {
       logger.error(`Ruta ${method}${url}:  ${err}`);
@@ -30,12 +29,34 @@ const createProduct = async (req, res) => {
   }
 };
 
-const getOneProduct = async (req, res) => {
+const getProductByFilters = async (req, res) => {
   try {
-    const filters = { _id: req.params.id };
+    const {id,categoria} = req.params    
+    let filters
+    if (typeof id !== 'undefined') {
+      filters = { _id: id };
+    }
+    else
+    {
+      filters = { category: categoria };
+    }   
     const response = await productService.getProductByFilters(filters);
 
-    res.json(response);
+    if (response.length == 0)
+    {
+      res.json({error: "Este producto no existe"})
+    }
+    else{
+      if (typeof id !== 'undefined') {
+        res.render("productDetails", {ProductosDB:response[0].Productos[0]} );
+      }
+      else
+      {
+        res.render("productCategory", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias} );
+      }
+    }
+    
+    //res.json(response);
   } catch (err) {
     if (err.statusCode) {
       return res.status(statusCode).send(err);
@@ -45,4 +66,4 @@ const getOneProduct = async (req, res) => {
   }
 };
 
-export default { getAllProduct, createProduct, getOneProduct };
+export default { getAllProduct, createProduct, getProductByFilters };

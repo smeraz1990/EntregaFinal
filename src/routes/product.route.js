@@ -3,12 +3,19 @@ import productController from "../controllers/product.controller.js";
 import jwt from "../utils/jwt.js";
 
 const router = Router();
+const idRouter = Router({mergeParams: true});
+const categoriaRouter = Router({mergeParams: true});
+
+
+// you can nest routers by attaching them as middleware:
+router.use('/categoria/:categoria', categoriaRouter);
+router.use('/:id', idRouter);
 
 router
   .route("/")
   .get(productController.getAllProduct)
   .post(jwt.authMiddleware, productController.createProduct);
-
-router.get("/:id", productController.getOneProduct);
+idRouter.route("/").get( productController.getProductByFilters);
+categoriaRouter.route("/").get( productController.getProductByFilters);
 
 export default router;
