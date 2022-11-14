@@ -3,7 +3,6 @@ import CarritoDTO from "../dto/carrito.dto.js"
 
 const getCarritoByFilters = async (filters) => {
   const product = await Carrito.find(filters).lean();
-  //console.log("datos consulta", product)
 
   return product
 };

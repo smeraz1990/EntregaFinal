@@ -3,7 +3,7 @@ import productService from "../service/product.service.js";
 const getAllProduct = async (req, res) => {
   try {
     const response = await productService.getAllProduct();
-    res.render("product", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias} );
+    res.render("product", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias, usuariolog: req.user._id.toString()} );
   } catch (err) {
     if (err.statusCode) {
       logger.error(`Ruta ${method}${url}:  ${err}`);
@@ -31,7 +31,7 @@ const createProduct = async (req, res) => {
 
 const getProductByFilters = async (req, res) => {
   try {
-    const {id,categoria} = req.params    
+    const {id,categoria} = req.params
     let filters
     if (typeof id !== 'undefined') {
       filters = { _id: id };
@@ -48,11 +48,12 @@ const getProductByFilters = async (req, res) => {
     }
     else{
       if (typeof id !== 'undefined') {
-        res.render("productDetails", {ProductosDB:response[0].Productos[0]} );
+        //console.log("datos detalle",response[0])
+        res.render("productDetails", {ProductosDB:response[0].Productos[0],usuariolog: req.user._id.toString()} );
       }
       else
       {
-        res.render("productCategory", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias} );
+        res.render("product", {ProductosDB:response[0].Productos, Categorias:response[0].Categorias,usuariolog: req.user._id.toString()} );
       }
     }
     

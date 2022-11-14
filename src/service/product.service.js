@@ -35,6 +35,8 @@ const getProductByFilters = async (filters) => {
         id: product[i]._id.toString(),
         name: product[i].name,
         price: product[i].price,
+        description: product[i].description,
+        category: product[i].category,
         thumbnail: product[i].thumbnail
       })
     }

@@ -2,9 +2,8 @@ import userService from "../service/user.service.js";
 
 const createUser = async (req, res) => {
   try {
-    const createdUser = await userService.createUser(req.body);
-
-    res.status(201).json(createdUser);
+    const createdUser = await userService.createUser(req);
+    return JSON.parse(createdUser)
   } catch (err) {
     console.log(err);
     if (err.statusCode) {
@@ -46,4 +45,4 @@ const login = async (req, res) => {
   }
 };
 
-export default { createUser, getOneUser, login };
+export default { createUser, getOneUser,login };

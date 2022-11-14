@@ -1,6 +1,11 @@
 function Init()
 {
     $(document).on("click","#btnPedido",SolicitarPedido)
+    $(document).on("click",".btnDeleteProduct",DeleteProduct)
+
+
+    
+    detalleOrden()
 }
 function SolicitarPedido(){
 let numeroproductos = gridProductosCarrito.rows.length
@@ -21,6 +26,23 @@ let numeroproductos = gridProductosCarrito.rows.length
         window.onload = timedRefresh(2000);
     },
     });
+}
+
+function DeleteProduct(){
+    const UsuarioLog = $('#inpUserLog').val()
+    const Productoid = $(this).data("productoid")
+    $.ajax({
+        method: "delete",
+        url: "/carrito/"+UsuarioLog+"/"+Productoid,
+        data: JSON.stringify({
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: 'json',
+        success: function (result) {
+            window.onload = timedRefresh(1000);
+        },
+    });
+
 }
 
 function timedRefresh(timeoutPeriod) {

@@ -9,9 +9,8 @@ const Login = async(req, res)=>{
     const {url , method} = req
     try{
         {
-            const {username} = req
-            const response = await usuarioService.getUserbyName({username})
-            //console.log("datos usuario login",response)
+            const filters = req
+            const response = await usuarioService.getUserOneByFilter(filters)
             return response
           }
     }
@@ -24,9 +23,7 @@ const getLogin = async (req, res) => {
       var user = req.user;
       //console.log("user logueado");
       //console.log("datos login",user._id.toString())
-      res.render("login-ok", {
-        usuario: user.username
-      });
+      res.redirect('/product');
     } else {
       //console.log("user NO logueado");
       res.sendFile(path.join(__dirname,"../../views/login.html"));
@@ -48,7 +45,8 @@ const getLogin = async (req, res) => {
 
 const postLogin = async (req, res) => {
     let user = req.user;
-    res.sendFile(path.join(__dirname,"../views/index.html"));
+    res.redirect('/product');
+    //res.sendFile(path.join(__dirname,"../views/.html"));
 }
 export default {
     Login,

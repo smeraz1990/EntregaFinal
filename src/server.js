@@ -8,29 +8,33 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import compression from 'compression'
 import datosLogin from './components/LoginStategy.js'
 import passport from 'passport';
 
 const app = express();
 
 app.use(json());
+app.use(compression())
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
-  secret: 'coderhouse',
+  secret: config.apisecret,
   resave: false,
   saveUninitialized: false,
   rolling: true,
   cookie:{
       httpOnly:false,
       secure: false,
-      maxAge: config.tiemposession,
+      maxAge: config.tiemposession
   }
 }))
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use('register',datosLogin.registerStrategy)
 passport.use('login',datosLogin.loginStrategy)
+
 passport.serializeUser((user,done)=>{
-    done(null,user._id)
+    done(null,user.id)
 })
 
 passport.deserializeUser((id,done)=>{

@@ -9,5 +9,6 @@ router
   .post(carritoController.createCarrito);
 router.get("/:idusuario", carritoController.getCarrito);
 router.get("/:idusuario/:idproduct", carritoController.getOneProductCarrito);
+router.delete("/:idusuario/:idproduct", carritoController.deleteProductCarrito);
 
 export default router;

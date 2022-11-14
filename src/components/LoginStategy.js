@@ -17,33 +17,31 @@ function isvalidpassword(reqPassword,dbPassword){
 const registerStrategy = new LocalStrategy({passReqToCallback:true},
 async (req,username,password,done)=>{
     //console.log("dato 1", username)
-    //console.log("muestra datos", req.body)
-const{nombre,direccion,edad,telefono} = req.body
+const{nombre,direccion} = req.body
     const {url , method, file} = req
     try{
-        const existingUser = await userController.getUserbyName({username})
-        console.log(existingUser)
-        if(existingUser)
-        {
-            return done(null,null)   
-        }
+       
         const newUser = {
             username,
             password: hashPassword(password),
             nombre,
             direccion,
-            edad,
-            telefono,
             avatar: `${file.filename}`
         }
 
         //console.log("dato existente", newUser)
+        
 
-        const createdUser = await userController.CreateUser(newUser)
+        const createdUser = await userController.createUser(newUser)
+        if(createdUser.error)
+        {
+            return done(null,null)   
+        }
         const newCarrito = {
-            usuarioid: createdUser._id.toString(),
+            usuarioid: createdUser.id.toString(),
             productos: [],
         }
+        
         const createCarrito = await carritoController.createCarrito(newCarrito)
         done(null,createdUser)
     } catch(error){
@@ -55,13 +53,11 @@ const{nombre,direccion,edad,telefono} = req.body
 const loginStrategy = new LocalStrategy(async (username,password,done)=>{
     try{
         const user = await loginControllers.Login({username})
-        //console.log("respuesta", username,password)
-        
 
         if(!user || !isvalidpassword(password,user.password)){
+            //console.log("diferente")
             return done(null)
         }
-
         done(null,user)
 
     }catch(error)
