@@ -10,6 +10,9 @@
                     {{/each}}
                 </select>
             </li>
+            <li class="pb-3 text-center">
+                <button id="btnOpenModalProducts" type="button" class="btn btn-primary">Agregar Producto</button>
+            </li>
         </ul>
     </div>
 
@@ -19,7 +22,7 @@
                 <div class="col-md-4">
                     <div class="card mb-4 product-wap rounded-0">
                         <div class="card rounded-0">
-                            <img class="card-img rounded-0 img-fluid" src="{{this.thumbnail}}">
+                            <img class="card-img rounded-0 img-fluid" src="{{@root.foo}}/{{this.thumbnail}}">
                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
                                     <li><a class="btn btn-success text-white mt-2 btnAddProduct" data-productoid = "{{this.id}}"><i class="fas fa-cart-plus"></i></a></li>
@@ -36,5 +39,58 @@
                 {{/each}}
         </div>
     </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalFormProduct" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+      </div>
+      <div class="modal-body">
+        <form id="formProdcts" class="form" role="form" action="{{@root.foo}}/product" method="post" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-12 order-md-1">
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                        <label for="Nombre">Nombre</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                        <label for="Nombre">Precio</label>
+                        <input type="text" class="form-control" id="price" name="price" placeholder="" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                        <label for="Nombre">Categoria</label>
+                        <input type="text" class="form-control" id="category" name="category" placeholder="" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                        <label for="description">Descripcion</label>
+                        <input type="text" class="form-control" id="description" name="description" placeholder="" value="" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                        <label for="thumbnail">Imagen</label>
+                        <input type="file" class="form-control" id="thumbnail" name='thumbnail' required>
+                        </div>
+                    </div>
+                    <hr class="mb-4">
+                </div>
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnClosemodal" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="btnAddProduct" class="btn btn-primary">Save changes</button>
+      </div>
     </div>
+  </div>
+</div>
 <script src="{{@root.foo}}/assets/js/ProductFunctions.js"></script>

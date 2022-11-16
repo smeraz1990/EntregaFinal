@@ -15,60 +15,62 @@ const avatarInput = document.querySelector('#avatarInput')
 const messageInput = document.querySelector('#messageInput')
 let entendimiento=0
 
-
-function sendProductos(productInfo) {
-    socket.emit('client:product', productInfo)
-}
-
-//Funciones para mensajeria
-function sendMessage(messageInfo) {
-    socket.emit('client:menssage', messageInfo)
-}
-
-function renderMessage(messagesInfo) {
-    //console.log("aqui los datos",messagesInfo)
-  
-    fetch('./messagesPool.hbs').then(response => {
-        response.text().then((plantillamensajes) => {
-            const template = Handlebars.compile(plantillamensajes);
-            let html = template({ messagesInfo});
-            //console.log(html)
-            $("#divChats").html(html)
-            var objDiv = document.getElementById("divChats");
-            objDiv.scrollTop = objDiv.scrollHeight;
-        })
-    })
-}
-
-messageForm.addEventListener('submit', event => {
-    event.preventDefault()
-    if (messageInput.value == "") {
-        alert('Ingresar un mensaje.')
-        return
+if(messageForm){
+    function sendProductos(productInfo) {
+        socket.emit('client:product', productInfo)
     }
 
-    const now = new Date()
-    const fecha = now.toLocaleDateString("es-MX")
-    const horas = (" " +
-            ("0" + now.getHours()).slice(-2) + ":" +
-            ("0" + now.getMinutes()).slice(-2) + ":" +
-            ("0" + now.getSeconds()).slice(-2))
-        //console.log(now.toLocaleDateString("es-MX"));
-        //console.log(horas);
+    //Funciones para mensajeria
+    function sendMessage(messageInfo) {
+        socket.emit('client:menssage', messageInfo)
+    }
 
-    const messageInfo = {
-            username: emailInput.value,
-            nombre: nombreInput.value,
-            avatar: avatarInput.value,
-            horaenvio: fecha + horas,
-            txtmensje: messageInput.value
-        }
-        //console.log(messageInfo)
-    sendMessage(messageInfo)
-    messageInput.value = ""
-})
+    function renderMessage(messagesInfo) {
+        //console.log("aqui los datos",messagesInfo)
+    
+        fetch('./messagesPool.hbs').then(response => {
+            response.text().then((plantillamensajes) => {
+                const template = Handlebars.compile(plantillamensajes);
+                let html = template({ messagesInfo});
+                //console.log(html)
+                $("#divChats").html(html)
+                if(messageForm){
+                var objDiv = document.getElementById("divChats");
+                objDiv.scrollTop = objDiv.scrollHeight;
+                }
+            })
+        })
+    }
 
+        messageForm.addEventListener('submit', event => {
+            event.preventDefault()
+            if (messageInput.value == "") {
+                alert('Ingresar un mensaje.')
+                return
+            }
 
-socket.on('server:mensajes', renderMessage)
+            const now = new Date()
+            const fecha = now.toLocaleDateString("es-MX")
+            const horas = (" " +
+                    ("0" + now.getHours()).slice(-2) + ":" +
+                    ("0" + now.getMinutes()).slice(-2) + ":" +
+                    ("0" + now.getSeconds()).slice(-2))
+                //console.log(now.toLocaleDateString("es-MX"));
+                //console.log(horas);
+
+            const messageInfo = {
+                    username: emailInput.value,
+                    nombre: nombreInput.value,
+                    avatar: avatarInput.value,
+                    horaenvio: fecha + horas,
+                    txtmensje: messageInput.value
+                }
+                //console.log(messageInfo)
+            sendMessage(messageInfo)
+            messageInput.value = ""
+        })
+
+    socket.on('server:mensajes', renderMessage)
     //renderProductos({ title: "Nuevo Titulo", price: "50.2", thumbnail: "nueva imagen" })
+}
 

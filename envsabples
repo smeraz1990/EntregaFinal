@@ -1,0 +1,6 @@
+PORT=3000
+#DB_URL= mongodb+srv://saymon:saymon@cluster0.pxiaw.mongodb.net/?retryWrites=true&w=majority
+DB_URL= mongodb+srv://saymon:saymon@cluster0.pxiaw.mongodb.net/apiEComerce?authMechanism=SCRAM-SHA-1
+PASS = 'tygfnzuvdkoxmvps'
+TIEMPO_EXPIRACION=600000
+API_SECRET='coderhouse'
