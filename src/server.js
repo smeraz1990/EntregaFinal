@@ -8,11 +8,16 @@ import path from 'path';
 import {fileURLToPath} from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+import { Server } from "socket.io";
 import compression from 'compression'
 import datosLogin from './components/LoginStategy.js'
 import passport from 'passport';
-
+import MensajesController from './controllers/mensaje.controller.js'
 const app = express();
+
+const servidor = app.listen(config.port, () => {
+  console.log(`Server listening host http://localhost:${config.port}`);
+});
 
 app.use(json());
 app.use(compression())
@@ -41,6 +46,7 @@ passport.deserializeUser((id,done)=>{
     datosLogin.User.findById(id,done)
 })
 app.use(express.static(path.join(__dirname, '../views')))
+app.use(express.static('avatars'))
 app.engine('hbs', engine({
   defaultLayout: path.join(__dirname, '../views/layouts/main.hbs'),
   layoutsDir: path.join(__dirname, '../views/layouts'),
@@ -54,16 +60,29 @@ app.set('view engine', '.hbs');
 //Direccionamiento a las rutas
 app.use("/", routes);
 
+
+
 app.use("*", (req, res) => {
-  res.sendStatus(404);
+  res.sendFile(path.join(__dirname,"../views/404.html"));
 });
-
-
-
 
 mongoose.connect(config.dbUrl).then(() => {
   console.log("Database connected!");
-  app.listen(config.port, () => {
-    console.log(`Server listening host http://localhost:${config.port}`);
-  });
 });
+
+const expressServer = servidor
+const io = new Server(expressServer);
+
+let messagesArray = []
+io.on('connection', async socket => {
+  messagesArray = await MensajesController.ReadMensajes()
+  socket.emit('server:mensajes', messagesArray)
+  socket.on('client:menssage', async messageInfo => {
+    //console.log("datos a guardar",messageInfo)
+      //fs.appendFileSync(`./Messages/appMensajes.txt`, JSON.stringify(messageInfo))
+      await MensajesController.createMensaje(messageInfo)
+      messagesArray = await MensajesController.ReadMensajes()
+      io.emit('server:mensajes', messagesArray)
+          //console.log(messageInfo)
+  })
+})
