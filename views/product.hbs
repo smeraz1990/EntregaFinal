@@ -23,7 +23,7 @@
                             <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                 <ul class="list-unstyled">
                                     <li><a class="btn btn-success text-white mt-2 btnAddProduct" data-productoid = "{{this.id}}"><i class="fas fa-cart-plus"></i></a></li>
-                                    <li><a href="./product/{{this.id}}" class="btn btn-success text-white mt-2 btnDetailProduct" data-productoid = "{{this.id}}"><i class="fas fa-info-circle "></i></a></li>
+                                    <li><a href="{{@root.foo}}/product/{{this.id}}" class="btn btn-success text-white mt-2 btnDetailProduct" data-productoid = "{{this.id}}"><i class="fas fa-info-circle "></i></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -37,4 +37,4 @@
         </div>
     </div>
     </div>
-<script src="{{@root.foo}}assets/js/ProductFunctions.js"></script>
+<script src="{{@root.foo}}/assets/js/ProductFunctions.js"></script>

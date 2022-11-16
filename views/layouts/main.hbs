@@ -29,7 +29,56 @@ body {
     overflow-y: auto;
     width: 100%;
 }
-    </style>
+
+
+.containerchat {
+  border: 2px solid #dedede;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.darker {
+  border-color: #ccc;
+  background-color: #ddd;
+}
+
+.containerchat::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.containerchat img {
+  float: left;
+  max-width: 60px;
+  width: 100%;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+
+.containerchat img.right {
+  float: right;
+  margin-left: 20px;
+  margin-right:0;
+}
+
+.time-right {
+  float: right;
+  color: #aaa;
+}
+
+.time-left {
+  float: left;
+  color: #999;
+}
+
+.anyClass {
+  height:400px;
+  overflow-y: scroll;
+}
+</style>
 
 <!--
     
@@ -57,16 +106,12 @@ https://templatemo.com/tm-559-zay-shop
                 <div class="flex-fill">
                     <ul class="nav navbar-nav d-flex justify-content-between mx-lg-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.html">Home</a>
+                            <a class="nav-link" href="/product">Productos</a>
                         </li>
+                        <input type="hidden" id="inpUserLog" value="{{usuariolog}}">
                         <li class="nav-item">
-                            <a class="nav-link" href="about.html">About</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="shop.html">Shop</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="contact.html">Contact</a>
+                            <a class="nav-link" href="/carrito/{{usuariolog}}">Carrito
+                            <span id="inpNumeroProductos" class="position-absolute left-100 translate-middle badge rounded-pill bg-light text-dark"></span></a>
                         </li>
                     </ul>
                 </div>
@@ -155,9 +200,10 @@ https://templatemo.com/tm-559-zay-shop
     <!-- End Footer -->
 
     <!-- Start Script -->
-    <script>
-        var nuevavariable = "hola"
-    </script>
+    <script src="./socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/normalizr@3.6.1/dist/normalizr.browser.min.js"></script>
+    <script src="./client.socket.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src= "{{@root.foo}}/assets/js/jquery-1.11.0.min.js"></script>
     <script src="{{@root.foo}}/assets/js/jquery-migrate-1.2.1.min.js"></script>
@@ -170,7 +216,7 @@ https://templatemo.com/tm-559-zay-shop
 
 <script>
     $( document ).ready(function() {
-        Init()
+        Init() 
     });
     
 
@@ -182,4 +228,30 @@ https://templatemo.com/tm-559-zay-shop
       redireccionar('/login');
     }
     
+
+    function detalleOrden(){
+        let variablerutas = ''
+        const UsuarioLog = $('#inpUserLog').val()
+        var x = window.location.pathname.split("/").length
+        //console.log(x)
+        if (x > 2){
+             for (let i = 2; i < x; i++)
+             {
+                variablerutas += '../'
+             }
+        }
+        let ruta = variablerutas+"orden/"+UsuarioLog 
+        //console.log("datos rutas",ruta)
+       
+       
+        $.ajax({
+            method: "GET",
+            url: ruta,
+            data: {},
+            success: function (result) {
+                $('#inpNumeroProductos').html(result.numeroProductos)
+            },
+            dataType: "json"
+        });  
+    }
 </script>

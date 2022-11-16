@@ -15,37 +15,6 @@ const avatarInput = document.querySelector('#avatarInput')
 const messageInput = document.querySelector('#messageInput')
 let entendimiento=0
 
-//Funciones para Productos
-/* function renderProductos(productos) {
-    fetch('./productos.hbs').then(response => {
-        response.text().then((plantilla) => {
-            const template = Handlebars.compile(plantilla);
-            let html = template({ productos });
-            $("#gridProductos tbody").html(html)
-            titleInput.value = ""
-            priceInput.value = ""
-            imgPool.value = ""
-        })
-    })
-} */
-
-/* socket.on('server:productos', productos => {
-    renderProductos(productos)
-})
- */
-
-/* ProductosForm.addEventListener('submit', event => {
-    event.preventDefault()
-
-    const productInfo = {
-        title: titleInput.value,
-        price: priceInput.value,
-        thumbnail: imgPool.value
-    }
-
-    sendProductos(productInfo)
-}) */
-
 
 function sendProductos(productInfo) {
     socket.emit('client:product', productInfo)
@@ -57,55 +26,22 @@ function sendMessage(messageInfo) {
 }
 
 function renderMessage(messagesInfo) {
-    console.log("aqui los datos",messagesInfo)
-    //se va a desnormalizar
-    const author = new normalizr.schema.Entity('author',{},{idAtrribute:'id'})
-    const mensaje = new normalizr.schema.Entity('mensaje',{author: author},{idAtrribute:"id"})
-    const schemamensajes = new normalizr.schema.Entity('mensajes',{
-        mensajes:[mensaje]
-    },{idAtrribute:"id"})
-    let desnomalize = normalizr.denormalize(messagesInfo.result,schemamensajes,messagesInfo.entities)
-    //console.log(desnomalize)
-    let caracteresNomalizados = (JSON.stringify(messagesInfo)?.length)
-    //console.log(caracteresNomalizados)
-    let caracteresNormales = (JSON.stringify(desnomalize)?.length)
-    //console.log(caracteresNomalizados)
-    //console.log(caracteresNormales)
-    //console.log(entendimiento)
-    //console.log("desnormalizado",desnomalize)
-    //console.log("normalizado", messagesInfo)
-    if(desnomalize !== undefined || messagesInfo.length != 0)
-    {
-        if(desnomalize !== undefined)
-        {
-            messagesInfo = desnomalize.mensajes
-            entendimiento = (caracteresNomalizados*100)/caracteresNormales
-        }
-        if(entendimiento != 0)
-        {
-            $("#spnComprencion").html(`Comprencion(${entendimiento.toFixed(2)}%)`)
-        }
-        //console.log("nuevo desnormalizado",messagesInfo)
+    //console.log("aqui los datos",messagesInfo)
+  
     fetch('./messagesPool.hbs').then(response => {
         response.text().then((plantillamensajes) => {
             const template = Handlebars.compile(plantillamensajes);
-            let html = template({ messagesInfo });
+            let html = template({ messagesInfo});
             //console.log(html)
-            $("#messangesPool").html(html)
-            titleInput.value = ""
-            priceInput.value = ""
-            imgPool.value = ""
+            $("#divChats").html(html)
+            var objDiv = document.getElementById("divChats");
+            objDiv.scrollTop = objDiv.scrollHeight;
         })
     })
-    }
 }
 
 messageForm.addEventListener('submit', event => {
     event.preventDefault()
-    if (emailInput.value == "") {
-        alert('Ingresar correo para participar en el chat.')
-        return
-    }
     if (messageInput.value == "") {
         alert('Ingresar un mensaje.')
         return
@@ -121,16 +57,11 @@ messageForm.addEventListener('submit', event => {
         //console.log(horas);
 
     const messageInfo = {
-            author: {
-                id: emailInput.value,
-                nombre: nombreInput.value,
-                apellido: apellidoInput.value,
-                edad: edadInput.value,
-                alias: aliasInput.value,
-                avatar: avatarInput.value,
-            },
+            username: emailInput.value,
+            nombre: nombreInput.value,
+            avatar: avatarInput.value,
             horaenvio: fecha + horas,
-            text: messageInput.value
+            txtmensje: messageInput.value
         }
         //console.log(messageInfo)
     sendMessage(messageInfo)

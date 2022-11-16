@@ -10,11 +10,12 @@
                                 <table id="gridProductosCarrito" class="table table-striped align-middle mb-0 bg-white">
                                     <thead class="bg-light">
                                         <tr>
+                                            <th>Imagen</th>
                                             <th>Name</th>
-                                            <th>Title</th>
-                                            <th>Status</th>
-                                            <th>Position</th>
-                                            <th>Actions</th>
+                                            <th>Precio</th>
+                                            <th>Cantidad</th>
+                                            <th>Total</th>
+                                            <th class="text-center">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -39,6 +40,9 @@
                                             <td>{{this.qry}}</td>
                                             <td>
                                                  {{Multiplicacion this.price this.qry}}
+                                            </td>
+                                            <td class="text-center">
+                                                <button type="button" class="btn btn-danger btnDeleteProduct" data-productoid = "{{this.productoid}}"><i class="fas  fa-times"></i></button>
                                             </td>
                                         </tr>
                                         {{/each}}

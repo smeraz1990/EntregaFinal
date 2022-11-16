@@ -1,0 +1,27 @@
+<h2>Chat Messages</h2>
+<div class="row">
+  <div class="col-lg-6">
+    <div class="row">
+        <div id="divFormulario">
+            <form id="messageForm">
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="messageInput" placeholder="Message">
+                  <input type="hidden" class="form-control" id="emailInput" value="{{username}}">
+                  <input type="hidden" class="form-control" id="nombreInput" value="{{nombre}}">
+                  <input type="hidden" class="form-control" id="avatarInput" value="{{avatar}}">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Enviar</button>
+                  </div>
+              </div>       
+            </form>
+        </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div id="divChats" class="anyClass">
+
+    </div>
+  </div>
+</div>
+
+<script src="{{@root.foo}}/assets/js/ProductFunctions.js"></script>

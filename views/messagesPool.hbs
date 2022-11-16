@@ -1,0 +1,17 @@
+
+{{#each messagesInfo}}
+   {{#if claseMensaje}}
+        <div class="containerchat {{this.claseMensaje}}">
+            <img src="../{{this.avatar}}" alt="Avatar" style="width:100%;">{{this.username}}<br>
+            <p>{{this.txtmensje}}</p>
+            <span class="time-right">{{this.horaenvio}}</span>
+            </div>
+        <div>
+    {{else}}
+        <div class="containerchat darker">
+        <img src="../{{this.avatar}}" alt="Avatar" class="right" style="width:100%;">{{this.username}}<br>
+         <p>{{this.txtmensje}}</p>
+        <span class="time-right">{{this.horaenvio}}</span>
+      </div>
+    {{/if}}
+{{/each}}
