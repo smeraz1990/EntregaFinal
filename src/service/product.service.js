@@ -47,8 +47,18 @@ const getProductByFilters = async (filters) => {
     return data;
 };
 
-const createProduct = async (productToCreate) => {
-  const createdProduct = await Product.create(productToCreate);
+const createProduct = async (req,res) => {
+  const {name,price,category,description} = req.body
+  const thumbnail = req.file.filename
+  const newProduct = {
+      name,
+      price,
+      category,
+      description,
+      thumbnail
+  }
+  //console.log("producto a agregar",newProduct )
+  const createdProduct = await Product.create(newProduct);
 
   //console.log(new ProductDTO(createdProduct))
 

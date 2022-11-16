@@ -16,9 +16,9 @@ const getAllProduct = async (req, res) => {
 const createProduct = async (req, res) => {
   try {
     //console.log("aqui el body",req.body )
-    const response = await productService.createProduct(req.body);
+    const response = await productService.createProduct(req);
 
-    res.status(201).json(response);
+    res.redirect('/product');
   } catch (err) {
     console.log(err);
     if (err.statusCode) {

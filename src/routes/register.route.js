@@ -7,7 +7,7 @@ const router = Router();
 
 router
   .route("/")
-  .post(upload.single('avatar'),passport.authenticate("register", { failureRedirect: "/register",failureMessage:{message:"error al registrar"} }),accessController.postLogin)
+  .post(upload.subirAvatar().single('avatar'),passport.authenticate("register", { failureRedirect: "/register",failureMessage:{message:"error al registrar"} }),accessController.postLogin)
   .get(accessController.getRegister)
 
 export default router;

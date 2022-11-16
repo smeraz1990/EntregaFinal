@@ -47,6 +47,7 @@ passport.deserializeUser((id,done)=>{
 })
 app.use(express.static(path.join(__dirname, '../views')))
 app.use(express.static('avatars'))
+app.use(express.static('productsImg'))
 app.engine('hbs', engine({
   defaultLayout: path.join(__dirname, '../views/layouts/main.hbs'),
   layoutsDir: path.join(__dirname, '../views/layouts'),

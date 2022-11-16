@@ -1,5 +1,6 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
+import upload from '../components/MulterConfig.js';
 import checkAuthentication from '../components/CheckAuth.js'
 
 const router = Router();
@@ -14,7 +15,7 @@ router.use('/:id', idRouter);
 router
   .route("/")
   .get(checkAuthentication,productController.getAllProduct)
-  .post(checkAuthentication, productController.createProduct);
+  .post(upload.subirImgProduct().single('thumbnail'), productController.createProduct);
 idRouter.route("/").get( productController.getProductByFilters);
 categoriaRouter.route("/").get( productController.getProductByFilters);
 
